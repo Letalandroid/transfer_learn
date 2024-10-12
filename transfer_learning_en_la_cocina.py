@@ -7,39 +7,20 @@ Original file is located at
     https://colab.research.google.com/drive/1kijMzfl1Mk3WytCWt7Yc4DGOAvWirwF9
 """
 
-#Crear las carpetas para subir las imagenes
-!mkdir cuchillos
-!mkdir cucharas
-!mkdir tenedores
-
-# Commented out IPython magic to ensure Python compatibility.
-#Entrar en cada carpeta y descomprimir el archivo zip
-# %cd cuchillos
-!unzip cuchillos.zip
-# %cd ..
-
-# %cd tenedores
-!unzip tenedores.zip
-# %cd ..
-
-# %cd cucharas
-!unzip cucharas.zip
-# %cd ..
-
-#Borrar los archivo ZIP
-!rm -rf /content/cucharas/cucharas.zip
-!rm -rf /content/cuchillos/cuchillos.zip
-!rm -rf /content/tenedores/tenedores.zip
-
-#Mostrar cuantas imagenes tengo de cada categoria
-!ls /content/cucharas | wc -l #475
-!ls /content/cuchillos | wc -l #515
-!ls /content/tenedores | wc -l #419
-
 #Mostrar algunas imagenes con pyplot
+#Categorizar una imagen de internet
+from PIL import Image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from io import BytesIO
+import requests
+import cv2
+import tensorflow as tf
+import tensorflow_hub as hub
+import numpy as np
 import os
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import shutil
 
 plt.figure(figsize=(15,15))
 
@@ -53,16 +34,15 @@ for i, nombreimg in enumerate(imagenes[:25]):
 
 #Crear carpetas para hacer el set de datos
 
-!mkdir dataset
-!mkdir dataset/cuchillo
-!mkdir dataset/tenedor
-!mkdir dataset/cuchara
+#mkdir dataset
+#mkdir dataset/cuchillo
+#mkdir dataset/tenedor
+#mkdir dataset/cuchara
 
 #Copiar imagenes que subimos a carpetas del dataset
 #Limitar para que todos tengan la misma cantidad de imagenes
 #maximo 419 (el num. menor de imagenes que subi)
 
-import shutil
 carpeta_fuente = '/content/cuchillos'
 carpeta_destino = '/content/dataset/cuchillo'
 
@@ -94,14 +74,11 @@ for i, nombreimg in enumerate(imagenes):
     shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
 
 #Mostrar cuantas imagenes tengo de cada categoria en el dataset
-!ls /content/dataset/cuchara | wc -l
-!ls /content/dataset/cuchillo | wc -l
-!ls /content/dataset/tenedor | wc -l
+#ls /content/dataset/cuchara | wc -l
+#ls /content/dataset/cuchillo | wc -l
+#ls /content/dataset/tenedor | wc -l
 
 #Aumento de datos con ImageDataGenerator
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import numpy as np
-
 #Crear el dataset generador
 datagen = ImageDataGenerator(
     rescale=1. / 255,
@@ -128,9 +105,6 @@ for imagen, etiqueta in data_gen_entrenamiento:
     plt.imshow(imagen[i])
   break
 plt.show()
-
-import tensorflow as tf
-import tensorflow_hub as hub
 
 url = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
 mobilenetv2 = hub.KerasLayer(url, input_shape=(224,224,3))
@@ -183,12 +157,6 @@ plt.legend(loc='upper right')
 plt.title('Pérdida de entrenamiento y pruebas')
 plt.show()
 
-#Categorizar una imagen de internet
-from PIL import Image
-import requests
-from io import BytesIO
-import cv2
-
 def categorizar(url):
   respuesta = requests.get(url)
   img = Image.open(BytesIO(respuesta.content))
@@ -204,10 +172,10 @@ prediccion = categorizar (url)
 print(prediccion)
 
 #Crear la carpeta para exportarla a TF Serving
-!mkdir -p carpeta_salida/modelo_cocina/1
+#mkdir -p carpeta_salida/modelo_cocina/1
 
 #Guardar el modelo en formato SavedModel
 modelo.save('carpeta_salida/modelo_cocina/1')
 
 #Hacerlo un zip para bajarlo y usarlo en otro lado
-!zip -r modelo_cocina.zip /content/carpeta_salida/modelo_cocina/
+#zip -r modelo_cocina.zip /content/carpeta_salida/modelo_cocina/
