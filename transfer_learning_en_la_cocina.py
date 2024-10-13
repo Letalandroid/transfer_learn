@@ -24,7 +24,19 @@ import shutil
 
 plt.figure(figsize=(15,15))
 
-carpeta = '/content/cuchillos'
+# data:
+# ['T-shirt/top',
+#'Trouser',
+#'Pullover',
+#'Dress',
+#'Coat',
+#'Sandal',
+#'Shirt',
+#'Sneaker',
+#'Bag',
+# 'Ankle boot']
+
+carpeta = './content/ankle_boot'
 imagenes = os.listdir(carpeta)
 
 for i, nombreimg in enumerate(imagenes[:25]):
@@ -38,40 +50,102 @@ for i, nombreimg in enumerate(imagenes[:25]):
 #mkdir dataset/cuchillo
 #mkdir dataset/tenedor
 #mkdir dataset/cuchara
-
 #Copiar imagenes que subimos a carpetas del dataset
+
 #Limitar para que todos tengan la misma cantidad de imagenes
 #maximo 419 (el num. menor de imagenes que subi)
 
-carpeta_fuente = '/content/cuchillos'
-carpeta_destino = '/content/dataset/cuchillo'
+carpeta_fuente = './content/ankle_boot'
+carpeta_destino = './content/ankle_boot/dataset/'
+
+imagenes = os.listdir(carpeta_fuente)
+count_images = 210 
+
+for i, nombreimg in enumerate(imagenes):
+    if i < count_images:
+    #Copia de la carpeta fuente a la destino
+     shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
+carpeta_fuente = './content/bag'
+carpeta_destino = './content/bag/dataset'
 
 imagenes = os.listdir(carpeta_fuente)
 
 for i, nombreimg in enumerate(imagenes):
-  if i < 419:
+  if i < count_images:
     #Copia de la carpeta fuente a la destino
     shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
 
-carpeta_fuente = '/content/tenedores'
-carpeta_destino = '/content/dataset/tenedor'
+carpeta_fuente = './content/coat'
+carpeta_destino = './content/coat/dataset/'
 
 imagenes = os.listdir(carpeta_fuente)
 
 for i, nombreimg in enumerate(imagenes):
-  if i < 419:
+  if i < count_images:
     #Copia de la carpeta fuente a la destino
     shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
 
-carpeta_fuente = '/content/cucharas'
-carpeta_destino = '/content/dataset/cuchara'
+carpeta_fuente = './content/dress'
+carpeta_destino = './content/dress/dataset/'
 
 imagenes = os.listdir(carpeta_fuente)
 
 for i, nombreimg in enumerate(imagenes):
-  if i < 419:
+  if i < count_images:
     #Copia de la carpeta fuente a la destino
     shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
+carpeta_fuente = './content/pullover'
+carpeta_destino = './content/pullover/dataset/'
+
+imagenes = os.listdir(carpeta_fuente)
+
+for i, nombreimg in enumerate(imagenes):
+  if i < count_images:
+    #Copia de la carpeta fuente a la destino
+    shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
+carpeta_fuente = './content/sandal'
+carpeta_destino = './content/sandal/dataset/'
+
+imagenes = os.listdir(carpeta_fuente)
+
+for i, nombreimg in enumerate(imagenes):
+  if i < count_images:
+    #Copia de la carpeta fuente a la destino
+    shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
+carpeta_fuente = './content/sneaker'
+carpeta_destino = './content/sneaker/dataset/'
+
+imagenes = os.listdir(carpeta_fuente)
+
+for i, nombreimg in enumerate(imagenes):
+  if i < count_images:
+    #Copia de la carpeta fuente a la destino
+    shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
+carpeta_fuente = './content/trouser'
+carpeta_destino = './content/trouser/dataset/'
+
+imagenes = os.listdir(carpeta_fuente)
+
+for i, nombreimg in enumerate(imagenes):
+  if i < count_images:
+    #Copia de la carpeta fuente a la destino
+    shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
+carpeta_fuente = './content/tshirt'
+carpeta_destino = './content/tshirt/dataset/'
+
+imagenes = os.listdir(carpeta_fuente)
+
+for i, nombreimg in enumerate(imagenes):
+  if i < count_images:
+    #Copia de la carpeta fuente a la destino
+    shutil.copy(carpeta_fuente + '/' + nombreimg, carpeta_destino + '/' + nombreimg)
+
 
 #Mostrar cuantas imagenes tengo de cada categoria en el dataset
 #ls /content/dataset/cuchara | wc -l
@@ -175,7 +249,7 @@ print(prediccion)
 #mkdir -p carpeta_salida/modelo_cocina/1
 
 #Guardar el modelo en formato SavedModel
-modelo.save('carpeta_salida/modelo_cocina/1')
+#modelo.save('carpeta_salida/modelo_cocina/1')
 
 #Hacerlo un zip para bajarlo y usarlo en otro lado
 #zip -r modelo_cocina.zip /content/carpeta_salida/modelo_cocina/
